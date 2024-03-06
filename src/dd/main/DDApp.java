@@ -11,7 +11,7 @@ public class DDApp {
         do {
             System.out.println("Bienvenido al juego. Por favor, selecciona un modo:");
             System.out.println("1. Modo aleatorio");
-            System.out.println("2. Modo normal");
+            System.out.println("2. Modo locura");
             System.out.println("3. Salir");
 
             opcion = scanner.nextInt();
@@ -21,7 +21,7 @@ public class DDApp {
                     modoAleatorio();
                     break;
                 case 2:
-                    modoNormal();
+                    modoNormal(scanner);
                     break;
                 case 3:
                     System.out.println("Gracias por jugar. ¡Hasta la próxima!");
@@ -65,11 +65,11 @@ public class DDApp {
             }
         }
     
-        public static void modoNormal() {
+        public static void modoNormal(Scanner scanner) {
             System.out.println("Debes hacer frente a unos trolls. ¡Tu eliges como!");
 
             // Crear la batalla
-            Batalla2 batalla = new Batalla2();
+            Batalla2 batalla = new Batalla2(scanner);
 
             // Iniciar la batalla y guardar el registro 
             List<String> registroDeAtaques = batalla.luchar();

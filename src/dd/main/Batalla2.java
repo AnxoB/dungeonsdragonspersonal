@@ -10,13 +10,14 @@ public class Batalla2 {
     private List<Personaje> ejercitoAliados;
     private List<Personaje> ejercitoTrolls;
     private Random random = new Random();
+    private Scanner scanner;
 
-    public Batalla2() {
+    public Batalla2(Scanner scanner) {
+        this.scanner = scanner;
         ejercitoAliados = new ArrayList<>();
         ejercitoTrolls = new ArrayList<>();
 
         // Reclutar ejército de aliados
-        Scanner scanner = new Scanner(System.in);
         System.out.println("¿Cuántos miembros quieres en tu ejército? (máximo 5)");
         int numMiembros = scanner.nextInt();
         numMiembros = Math.min(numMiembros, 5); // Limita el número de miembros a 5
@@ -45,7 +46,7 @@ public class Batalla2 {
         
             switch (tipoPersonaje) {
                 case 1:
-                    ejercitoAliados.add(new Rey(new AtaqueEspada(), nombrePersonaje)); // Asume que la clase Rey y AtaqueEspada existen
+                    ejercitoAliados.add(new Rey(new AtaqueEspada(), nombrePersonaje, false)); // Asume que la clase Rey y AtaqueEspada existen
                     break;
                 case 2:
                     ejercitoAliados.add(new Caballero(new AtaqueEspada(), nombrePersonaje)); // Asume que la clase Caballero y AtaqueEspada existen
@@ -59,7 +60,6 @@ public class Batalla2 {
                     break;
             }
         }
-        scanner.close();
 
 
         // Reclutar ejército de trolls
