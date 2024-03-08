@@ -6,13 +6,13 @@ import java.util.Random;
 import java.util.Scanner;
 import dd.core.*;
 
-public class Batalla2 {
+public class Batalla3 {
     private List<Personaje> ejercitoAliados;
     private List<Personaje> ejercitoTrolls;
     private Random random = new Random();
     private Scanner scanner;
 
-    public Batalla2(Scanner scanner) {
+    public Batalla3(Scanner scanner) {
         this.scanner = scanner;
         ejercitoAliados = new ArrayList<>();
         ejercitoTrolls = new ArrayList<>();
@@ -46,13 +46,13 @@ public class Batalla2 {
         
             switch (tipoPersonaje) {
                 case 1:
-                    ejercitoAliados.add(new Rey(new AtaqueEspada(), nombrePersonaje, false, true, false)); // Asume que la clase Rey y AtaqueEspada existen
+                    ejercitoAliados.add(new Rey(new AtaqueEspada(), nombrePersonaje, false, false, true)); // Asume que la clase Rey y AtaqueEspada existen
                     break;
                 case 2:
-                    ejercitoAliados.add(new Caballero(new AtaqueEspada(), nombrePersonaje, false, true, false)); // Asume que la clase Caballero y AtaqueEspada existen
+                    ejercitoAliados.add(new Caballero(new AtaqueEspada(), nombrePersonaje, false, false, true)); // Asume que la clase Caballero y AtaqueEspada existen
                     break;
                 case 3:
-                    ejercitoAliados.add(new Mago(new AtaqueMagia(), nombrePersonaje, false, true, false)); // Asume que la clase Mago y AtaqueMagia existen
+                    ejercitoAliados.add(new Mago(new AtaqueMagia(), nombrePersonaje, false, false, true)); // Asume que la clase Mago y AtaqueMagia existen
                     break;
                 default:
                     System.out.println("Tipo de personaje no reconocido. Por favor, introduce 1, 2 o 3.");
@@ -73,27 +73,42 @@ public class Batalla2 {
     }
 
     public List<String> luchar() {
-        
         List<String> registroDeAtaques = new ArrayList<>();
         int turno = 1;
-
+    
         // Mientras haya aliados y trolls, la batalla continúa
         while (!ejercitoAliados.isEmpty() && !ejercitoTrolls.isEmpty()) {
             registroDeAtaques.add("Turno " + turno + ":");
-
+    
             // Turno de los aliados
             for (Personaje aliado : new ArrayList<>(ejercitoAliados)) {
-                if (!ejercitoTrolls.isEmpty()) {
-                    // Ataca a un troll aleatorio
-                    Personaje trollAleatorio = ejercitoTrolls.get(random.nextInt(ejercitoTrolls.size()));
-                    List<String> ataques = aliado.ataca(trollAleatorio);
-                    registroDeAtaques.addAll(ataques);
-
-                    // Si el troll muere, se elimina del ejército
-                    if (trollAleatorio.getSalud() <= 0) {
-                        ejercitoTrolls.remove(trollAleatorio);
-                        registroDeAtaques.add(trollAleatorio.getNombre() + " ha muerto!");
-                    }
+                System.out.println("Turno de " + aliado.getNombre() + ". Elige una acción: 1. Atacar, 2. Defender, 3. Pasar turno");
+                int accion = scanner.nextInt();
+    
+                switch (accion) {
+                    case 1: // Atacar
+                        if (!ejercitoTrolls.isEmpty()) {
+                            // Ataca a un troll aleatorio
+                            Personaje trollAleatorio = ejercitoTrolls.get(random.nextInt(ejercitoTrolls.size()));
+                            List<String> ataques = aliado.ataca(trollAleatorio);
+                            registroDeAtaques.addAll(ataques);
+    
+                            // Si el troll muere, se elimina del ejército
+                            if (trollAleatorio.getSalud() <= 0) {
+                                ejercitoTrolls.remove(trollAleatorio);
+                                registroDeAtaques.add(trollAleatorio.getNombre() + " ha muerto!");
+                            }
+                        }
+                        break;
+                    case 2: // Defender
+                        // Implementa la lógica de defensa aquí
+                        break;
+                    case 3: // Pasar turno
+                        // No hace nada
+                        break;
+                    default:
+                        System.out.println("Acción no reconocida. Por favor, introduce 1, 2 o 3.");
+                        break;
                 }
             }
     
@@ -104,7 +119,7 @@ public class Batalla2 {
                     Personaje aliadoAleatorio = ejercitoAliados.get(random.nextInt(ejercitoAliados.size()));
                     List<String> ataques = troll.ataca(aliadoAleatorio);
                     registroDeAtaques.addAll(ataques);
-
+            
                     // Si el aliado muere, se elimina del ejército
                     if (aliadoAleatorio.getSalud() <= 0) {
                         ejercitoAliados.remove(aliadoAleatorio);
@@ -125,3 +140,4 @@ public class Batalla2 {
         return this.ejercitoTrolls;
     }
 }
+

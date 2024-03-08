@@ -17,9 +17,9 @@ public class Batalla {
         this.rand = new Random();
 
         //Crear ejercito aliado
-        Personaje p1 = new Rey(new AtaqueEspada(), "Arturo", true);
-        Personaje p2 = new Caballero(new AtaqueEspada(), "Lancelot");
-        Personaje p3 = new Caballero(new AtaqueArco(), "Percival");
+        Personaje p1 = new Rey(new AtaqueEspada(), "Arturo", true, false, false);
+        Personaje p2 = new Caballero(new AtaqueEspada(), "Lancelot", true, false, false);
+        Personaje p3 = new Caballero(new AtaqueArco(), "Percival", true, false, false);
         ejercitoAliados.add(p1);
         ejercitoAliados.add(p2);
         ejercitoAliados.add(p3);

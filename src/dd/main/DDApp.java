@@ -12,7 +12,8 @@ public class DDApp {
             System.out.println("Bienvenido al juego. Por favor, selecciona un modo:");
             System.out.println("1. Modo aleatorio");
             System.out.println("2. Modo locura");
-            System.out.println("3. Salir");
+            System.out.println("3. Modo normal");
+            System.out.println("4. Salir");
 
             opcion = scanner.nextInt();
 
@@ -21,9 +22,12 @@ public class DDApp {
                     modoAleatorio();
                     break;
                 case 2:
-                    modoNormal(scanner);
+                    modoLocura(scanner);
                     break;
                 case 3:
+                    modoNormal(scanner);
+                    break;
+                case 4:
                     System.out.println("Gracias por jugar. ¡Hasta la próxima!");
                     break;
                 default:
@@ -65,8 +69,8 @@ public class DDApp {
             }
         }
     
-        public static void modoNormal(Scanner scanner) {
-            System.out.println("Debes hacer frente a unos trolls. ¡Tu eliges como!");
+        public static void modoLocura(Scanner scanner) {
+            System.out.println("¡Es hora de la locura! ¡Los aliados y los trolls están enloquecidos!");
 
             // Crear la batalla
             Batalla2 batalla = new Batalla2(scanner);
@@ -92,5 +96,31 @@ public class DDApp {
                 System.out.println("La batalla terminó en empate.");
             }
         } 
+
+        public static void modoNormal(Scanner scanner) {
+            System.out.println("Debes hacer frente a unos trolls ¡Tu eliges cómo!");
+        
+            // Crear ejércitos
+            List<Personaje> ejercitoAliados = new ArrayList<>();
+            List<Personaje> ejercitoTrolls = new ArrayList<>();
+            // Crear la batalla
+            Batalla3 batalla = new Batalla3(scanner);
+        
+            // Iniciar la batalla y guardar el registro 
+            List<String> registroDeAtaques = batalla.luchar();
+        
+            for (String mensaje : registroDeAtaques) {
+                System.out.println(mensaje);
+            }
+            
+            // Mostrar el resultado de la batalla
+            if (ejercitoAliados.isEmpty()) {
+                System.out.println("Los trolls han ganado la batalla.");
+            } else if (ejercitoTrolls.isEmpty()) {
+                System.out.println("Los aliados han ganado la batalla.");
+            } else {
+                System.out.println("La batalla terminó en empate.");
+            }
+        }
 
 }
