@@ -46,13 +46,13 @@ public class Batalla2 {
         
             switch (tipoPersonaje) {
                 case 1:
-                    ejercitoAliados.add(new Rey(new AtaqueEspada(), nombrePersonaje, false, true, false)); // Asume que la clase Rey y AtaqueEspada existen
+                    ejercitoAliados.add(new Rey(new AtaqueEspada(), new AtaqueMagia(), nombrePersonaje, false, true, false)); // Asume que la clase Rey y AtaqueEspada existen
                     break;
                 case 2:
-                    ejercitoAliados.add(new Caballero(new AtaqueEspada(), nombrePersonaje, false, true, false)); // Asume que la clase Caballero y AtaqueEspada existen
+                    ejercitoAliados.add(new Caballero(new AtaqueEspada(), new AtaqueArco(), nombrePersonaje, false, true, false)); // Asume que la clase Caballero y AtaqueEspada existen
                     break;
                 case 3:
-                    ejercitoAliados.add(new Mago(new AtaqueMagia(), nombrePersonaje, false, true, false)); // Asume que la clase Mago y AtaqueMagia existen
+                    ejercitoAliados.add(new Mago(new AtaqueMagia(), new Curar(), nombrePersonaje, false, true, false)); // Asume que la clase Mago y AtaqueMagia existen
                     break;
                 default:
                     System.out.println("Tipo de personaje no reconocido. Por favor, introduce 1, 2 o 3.");

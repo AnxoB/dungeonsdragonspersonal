@@ -2,19 +2,22 @@ package dd.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Caballero extends Personaje {
-    private EstrategiaAtaque estrategiaAtaque;
+    private EstrategiaAtaque estrategiaAtaqueEspada;
+    private EstrategiaAtaque estrategiaAtaqueArco;
     private boolean modoAleatorio;
     private boolean modoNormal;
     private boolean modoLocura;
     private Scanner scanner = new Scanner(System.in);
 
     // Constructor de la clase Caballero
-    public Caballero(EstrategiaAtaque estrategiaAtaque, String nombre, boolean modoAleatorio, boolean modoLocura, boolean modoNormal) {
-        super(nombre, 0, 1500, estrategiaAtaque);
-        this.estrategiaAtaque = estrategiaAtaque;
+    public Caballero(EstrategiaAtaque estrategiaAtaqueEspada, EstrategiaAtaque estrategiaAtaqueArco, String nombre, boolean modoAleatorio, boolean modoLocura, boolean modoNormal) {
+        super(nombre, 0, 1500, estrategiaAtaqueEspada);
+        this.estrategiaAtaqueEspada = estrategiaAtaqueEspada;
+        this.estrategiaAtaqueArco = estrategiaAtaqueArco;
         this.modoAleatorio = modoAleatorio;
         this.modoNormal = modoNormal;
         this.modoLocura = modoLocura;
@@ -35,9 +38,39 @@ public class Caballero extends Personaje {
             int opcion = scanner.nextInt();
             scanner.nextLine();
             if (opcion == 1) {
-                estrategiaAtaque = new AtaqueEspada();
+                for (int i = 0; i < 3; i++) {
+                    if (enemigo.getSalud() <= 0) {
+                        break; // Detiene los ataques adicionales si el enemigo ya está muerto
+                    }
+                    int valorAtaque = estrategiaAtaqueEspada.lanzaAtaque(enemigo);
+                    if (valorAtaque > 0) {
+                        enemigo.setSalud(enemigo.getSalud() - valorAtaque);
+                    }
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueEspada.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    if (valorAtaque == 0) {
+                        registro += " -> El ataque ha fallado";
+                    } else {
+                        registro += " -> Daño: " + valorAtaque;
+                    }
+                    registros.add(registro);
+                }
             } else if (opcion == 2) {
-                estrategiaAtaque = new AtaqueArco();
+                for (int i = 0; i < 2; i++) {
+                    if (enemigo.getSalud() <= 0) {
+                        break; // Detiene los ataques adicionales si el enemigo ya está muerto
+                    }
+                    int valorAtaque = estrategiaAtaqueArco.lanzaAtaque(enemigo);
+                    if (valorAtaque > 0) {
+                        enemigo.setSalud(enemigo.getSalud() - valorAtaque);
+                    }
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueArco.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    if (valorAtaque == 0) {
+                        registro += " -> El ataque ha fallado";
+                    } else {
+                        registro += " -> Daño: " + valorAtaque;
+                    }
+                    registros.add(registro);
+                }
             }
         }
 
@@ -54,32 +87,52 @@ public class Caballero extends Personaje {
             scanner.nextLine();
             switch (accion) {
                 case 1: // Atacar
-                    estrategiaAtaque = new AtaqueEspada();
+                    estrategiaAtaqueEspada = new AtaqueEspada();
                     break;
                 case 2: // Defender
-                    estrategiaAtaque = new AtaqueMagia();
+                    estrategiaAtaqueArco = new AtaqueArco();
                     break;
                 // Añade más casos si es necesario
             }
         }
         if (modoAleatorio && enemigo.getSalud() > 0) {
-            // El rey ataca 3 veces
-            for (int i = 0; i < 2; i++) {
-                if (enemigo.getSalud() <= 0) {
-                    break; // Detiene los ataques adicionales si el enemigo ya está muerto
+            if (estrategiaAtaqueEspada != null) {
+                for (int i = 0; i < 2; i++) {
+                    if (enemigo.getSalud() <= 0) {
+                        break; // Detiene los ataques adicionales si el enemigo ya está muerto
+                    }
+                    int valorAtaque = estrategiaAtaqueEspada.lanzaAtaque(enemigo);
+                    if (valorAtaque > 0) {
+                        enemigo.setSalud(enemigo.getSalud() - valorAtaque);
+                    }
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueEspada.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    if (valorAtaque == 0) {
+                        registro += " -> El ataque ha fallado";
+                    } else {
+                        registro += " -> Daño: " + valorAtaque;
+                    }
+                    registros.add(registro);
                 }
-                int valorAtaque = estrategiaAtaque.lanzaAtaque(enemigo);
-                if (valorAtaque > 0) {
-                    enemigo.setSalud(enemigo.getSalud() - valorAtaque);
-                }
-                String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaque.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
-                if (valorAtaque == 0) {
-                    registro += " -> El ataque ha fallado";
-                } else {
-                    registro += " -> Daño: " + valorAtaque;
-                }
-                registros.add(registro);
             }
+            
+            if (estrategiaAtaqueArco != null) {
+                for (int i = 0; i < 2; i++) {
+                    if (enemigo.getSalud() <= 0) {
+                        break; // Detiene los ataques adicionales si el enemigo ya está muerto
+                    }
+                    int valorAtaque = estrategiaAtaqueArco.lanzaAtaque(enemigo);
+                    if (valorAtaque > 0) {
+                        enemigo.setSalud(enemigo.getSalud() - valorAtaque);
+                    }
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueArco.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    if (valorAtaque == 0) {
+                        registro += " -> El ataque ha fallado";
+                    } else {
+                        registro += " -> Daño: " + valorAtaque;
+                    }
+                    registros.add(registro);
+                }
+            }     
         }
         return registros;
     }

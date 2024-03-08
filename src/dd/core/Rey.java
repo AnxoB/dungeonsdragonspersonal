@@ -4,15 +4,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Rey extends Personaje {
-    private EstrategiaAtaque estrategiaAtaque;
+    private EstrategiaAtaque estrategiaAtaqueEspada;
+    private EstrategiaAtaque estrategiaAtaqueMagia;
     private boolean modoAleatorio;
     private boolean modoNormal;
     private boolean modoLocura;
     private Scanner scanner = new Scanner(System.in);
 
-    public Rey(EstrategiaAtaque estrategiaAtaque, String nombre, boolean modoAleatorio, boolean modoLocura, boolean modoNormal) {
-        super(nombre, 0, 2000, estrategiaAtaque);
-        this.estrategiaAtaque = estrategiaAtaque;
+    public Rey(EstrategiaAtaque estrategiaAtaqueEspada, EstrategiaAtaque estrategiaAtaqueMagia, String nombre, boolean modoAleatorio, boolean modoLocura, boolean modoNormal) {
+        super(nombre, 0, 2000, estrategiaAtaqueEspada);
+        this.estrategiaAtaqueEspada = estrategiaAtaqueEspada;
+        this.estrategiaAtaqueMagia = estrategiaAtaqueMagia;
         this.modoAleatorio = modoAleatorio;
         this.modoNormal = modoNormal;
         this.modoLocura = modoLocura;
@@ -36,11 +38,11 @@ public class Rey extends Personaje {
                     if (enemigo.getSalud() <= 0) {
                         break; // Detiene los ataques adicionales si el enemigo ya está muerto
                     }
-                    int valorAtaque = estrategiaAtaque.lanzaAtaque(enemigo);
+                    int valorAtaque = estrategiaAtaqueEspada.lanzaAtaque(enemigo);
                     if (valorAtaque > 0) {
                         enemigo.setSalud(enemigo.getSalud() - valorAtaque);
                     }
-                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaque.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueEspada.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
                     if (valorAtaque == 0) {
                         registro += " -> El ataque ha fallado";
                     } else {
@@ -53,11 +55,11 @@ public class Rey extends Personaje {
                     if (enemigo.getSalud() <= 0) {
                         break; // Detiene los ataques adicionales si el enemigo ya está muerto
                     }
-                    int valorAtaque = estrategiaAtaque.lanzaAtaque(enemigo);
+                    int valorAtaque = estrategiaAtaqueMagia.lanzaAtaque(enemigo);
                     if (valorAtaque > 0) {
                         enemigo.setSalud(enemigo.getSalud() - valorAtaque);
                     }
-                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaque.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                    String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueMagia.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
                     if (valorAtaque == 0) {
                         registro += " -> El ataque ha fallado";
                     } else {
@@ -81,10 +83,10 @@ public class Rey extends Personaje {
             scanner.nextLine();
             switch (accion) {
                 case 1: // Atacar
-                    estrategiaAtaque = new AtaqueEspada();
+                    estrategiaAtaqueEspada = new AtaqueEspada();
                     break;
                 case 2: // Defender
-                    estrategiaAtaque = new AtaqueMagia();
+                    estrategiaAtaqueMagia = new AtaqueMagia();
                     break;
                 // Añade más casos si es necesario
             }
@@ -95,11 +97,11 @@ public class Rey extends Personaje {
                 if (enemigo.getSalud() <= 0) {
                     break; // Detiene los ataques adicionales si el enemigo ya está muerto
                 }
-                int valorAtaque = estrategiaAtaque.lanzaAtaque(enemigo);
+                int valorAtaque = estrategiaAtaqueEspada.lanzaAtaque(enemigo);
                 if (valorAtaque > 0) {
                     enemigo.setSalud(enemigo.getSalud() - valorAtaque);
                 }
-                String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaque.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
+                String registro = this.getNombre() + " [" + this.getSalud() + "] ataca con "+ estrategiaAtaqueEspada.getNombreAtaque()+ " contra " + enemigo.getNombre() + " [" + enemigo.getSalud() + "]";
                 if (valorAtaque == 0) {
                     registro += " -> El ataque ha fallado";
                 } else {
