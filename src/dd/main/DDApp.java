@@ -107,11 +107,7 @@ public class DDApp {
             Batalla3 batalla = new Batalla3(scanner);
         
             // Iniciar la batalla y guardar el registro 
-            List<String> registroDeAtaques = batalla.luchar();
-        
-            for (String mensaje : registroDeAtaques) {
-                System.out.println(mensaje);
-            }
+            batalla.luchar();
             
             // Mostrar el resultado de la batalla
             if (ejercitoAliados.isEmpty()) {

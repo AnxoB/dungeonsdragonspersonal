@@ -72,43 +72,30 @@ public class Batalla3 {
         }
     }
 
-    public List<String> luchar() {
-        List<String> registroDeAtaques = new ArrayList<>();
+    public void luchar() {
         int turno = 1;
     
         // Mientras haya aliados y trolls, la batalla continúa
         while (!ejercitoAliados.isEmpty() && !ejercitoTrolls.isEmpty()) {
-            registroDeAtaques.add("Turno " + turno + ":");
+            System.out.println("Turno " + turno + ":");
     
             // Turno de los aliados
             for (Personaje aliado : new ArrayList<>(ejercitoAliados)) {
-                System.out.println("Turno de " + aliado.getNombre() + ". Elige una acción: 1. Atacar, 2. Defender, 3. Pasar turno");
-                int accion = scanner.nextInt();
+                if (!ejercitoTrolls.isEmpty()) {
+                    // Ataca a un troll aleatorio
+                    Personaje trollAleatorio = ejercitoTrolls.get(random.nextInt(ejercitoTrolls.size()));
+                    List<String> ataques = aliado.ataca(trollAleatorio);
     
-                switch (accion) {
-                    case 1: // Atacar
-                        if (!ejercitoTrolls.isEmpty()) {
-                            // Ataca a un troll aleatorio
-                            Personaje trollAleatorio = ejercitoTrolls.get(random.nextInt(ejercitoTrolls.size()));
-                            List<String> ataques = aliado.ataca(trollAleatorio);
-                            registroDeAtaques.addAll(ataques);
+                    // Muestra los resultados del ataque inmediatamente
+                    for (String ataque : ataques) {
+                        System.out.println(ataque);
+                    }
     
-                            // Si el troll muere, se elimina del ejército
-                            if (trollAleatorio.getSalud() <= 0) {
-                                ejercitoTrolls.remove(trollAleatorio);
-                                registroDeAtaques.add(trollAleatorio.getNombre() + " ha muerto!");
-                            }
-                        }
-                        break;
-                    case 2: // Defender
-                        // Implementa la lógica de defensa aquí
-                        break;
-                    case 3: // Pasar turno
-                        // No hace nada
-                        break;
-                    default:
-                        System.out.println("Acción no reconocida. Por favor, introduce 1, 2 o 3.");
-                        break;
+                    // Si el troll muere, se elimina del ejército
+                    if (trollAleatorio.getSalud() <= 0) {
+                        ejercitoTrolls.remove(trollAleatorio);
+                        System.out.println(trollAleatorio.getNombre() + " ha muerto!");
+                    }
                 }
             }
     
@@ -118,26 +105,22 @@ public class Batalla3 {
                     // Ataca a un aliado aleatorio
                     Personaje aliadoAleatorio = ejercitoAliados.get(random.nextInt(ejercitoAliados.size()));
                     List<String> ataques = troll.ataca(aliadoAleatorio);
-                    registroDeAtaques.addAll(ataques);
-            
+    
+                    // Muestra los resultados del ataque inmediatamente
+                    for (String ataque : ataques) {
+                        System.out.println(ataque);
+                    }
+    
                     // Si el aliado muere, se elimina del ejército
                     if (aliadoAleatorio.getSalud() <= 0) {
                         ejercitoAliados.remove(aliadoAleatorio);
-                        registroDeAtaques.add(aliadoAleatorio.getNombre() + " ha muerto!");
+                        System.out.println(aliadoAleatorio.getNombre() + " ha muerto!");
                     }
                 }
             }
+    
             turno++;
         }
-        return registroDeAtaques;    
-    }
-
-    public List<Personaje> getEjercitoAliados() {
-        return this.ejercitoAliados;
-    }
-
-    public List<Personaje> getEjercitoTrolls() {
-        return this.ejercitoTrolls;
     }
 }
 
